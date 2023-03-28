@@ -13,7 +13,7 @@ import java.util.List;
  * 教室展示
  *
  */
-@Api(description="教室展示")
+@Api(description="教室学生展示")
 @RestController
 @RequestMapping("/orderservice/classroom")
 @CrossOrigin
