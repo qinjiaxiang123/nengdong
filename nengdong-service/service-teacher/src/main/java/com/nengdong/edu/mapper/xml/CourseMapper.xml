@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nengdong.edu.mapper.CourseMapper">
+    <select id="getCoursePublishById" resultType="com.nengdong.edu.vo.course.CoursePublishVo">
+         SELECT ec.id,ec.title,ec.cover,ec.price,
+ec.lesson_num AS lessonNum,et.name AS teacherName,
+es1.title AS subjectLevelOne,es2.title AS subjectLevelTwo
+FROM edu_course ec
+INNER JOIN edu_teacher et ON ec.teacher_id = et.id
+INNER JOIN edu_subject es1 ON ec.subject_parent_id = es1.id
+INNER JOIN edu_subject es2 ON ec.subject_id = es2.id
+WHERE ec.id = #{id}
+     </select>
+    <select id="getCourseWebVo" resultType="com.nengdong.edu.vo.course.CourseWebVo">
+SELECT ec.id,ec.title,ec.price,ec.cover,ec.notice,
+ec.lesson_num AS lessonNum,ec.buy_count AS buyCount,
+ec.view_count AS viewCount,ecd.description,
+et.id AS teacherId,et.name AS teacherName,et.intro,et.avatar
+FROM edu_course ec
+INNER JOIN edu_course_description ecd ON ec.id=ecd.id
+INNER JOIN edu_teacher et ON ec.teacher_id=et.id
+WHERE ec.status ='Normal' AND ec.id= #{id}
+     </select>
+
+    <select id="countCourse" resultType="java.lang.Integer">
+    SELECT COUNT(id)
+    FROM edu_course um
+    WHERE DATE(um.`gmt_create`) = #{day}
+</select>
+
+</mapper>
